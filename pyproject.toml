@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dagsweep"
+version = "0.1.0"
+description = "Declarative, prefix-reusing parameter sweeps over a step DAG."
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    { name = "Maicondalllg", email = "maicon.dallagnol@unesp.br" },
+]
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dagsweep*"]
+
+[tool.setuptools.package-data]
+dagsweep = ["py.typed"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
