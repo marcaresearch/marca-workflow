@@ -43,7 +43,7 @@ def test_prefix_reuse_call_counts():
 
 def test_values_match_bruteforce():
     pipe, A, B, C = _chain()
-    results = pipe.run(seed={"seed": "x"}, sink=lambda ctx: ctx["c"])
+    results = dict(pipe.run(seed={"seed": "x"}, sink=lambda ctx: ctx["c"]))
     expected = {
         f"{a.name}+{b.name}+{c.name}": f"x->{a.name}->{b.name}->{c.name}"
         for a in [type("o", (), {"name": n})() for n in ("a0", "a1")]
@@ -69,7 +69,7 @@ def test_optional_skip_uses_fallback():
     ])
     results = pipe.run(seed={}, sink=lambda ctx: ctx["z"])
     # one leaf skips S (fallback to 'a'='A'), one runs S
-    assert set(results.values()) == {"Z(A)", "Z(sel(A))"}
+    assert {v for _, v in results} == {"Z(A)", "Z(sel(A))"}
     assert ran["n"] == 1  # S ran only on the non-None variant
 
 
@@ -82,7 +82,7 @@ def test_diamond_branching():
         Step("C", lambda v, a: f"C({a})", consumes=("a",), produces="c"),
         Step("D", lambda v, b, c: f"{b}|{c}", consumes=("b", "c"), produces="d"),
     ])
-    results = pipe.run(seed={"s": "x"}, sink=lambda ctx: ctx["d"])
+    results = dict(pipe.run(seed={"s": "x"}, sink=lambda ctx: ctx["d"]))
     assert len(results) == 2  # only A is swept
     assert sum(a.calls for a in A) == 2  # A computed once per variant, shared by B and C
     assert results["a0"] == "B(x->a0)|C(x->a0)"
@@ -96,7 +96,7 @@ def test_topological_order_independent_of_declaration():
         Step("B", lambda v, a: a + "b", consumes=("a",), produces="b"),
     ])
     out = pipe.run(seed={"s": "x"}, sink=lambda ctx: ctx["c"])
-    assert list(out.values()) == ["xabc"]
+    assert [v for _, v in out] == ["xabc"]
 
 
 def test_duplicate_produces_rejected():

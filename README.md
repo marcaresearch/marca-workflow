@@ -35,7 +35,7 @@ results = pipe.run(
     seed={"rules": rules, "measures": im},
     sink=lambda ctx: evaluate(ctx["model"]),
 )
-# {"BordaRank+M1Prune+OrdinalClassifier": <metric>, ...}
+# [("BordaRank+M1Prune+OrdinalClassifier", <metric>), ...]  one record per leaf
 ```
 
 `rank` runs once per ranker, `prune` once per (ranker, pruner), `clf` once per

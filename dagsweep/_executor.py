@@ -30,7 +30,9 @@ def run(
     hash of the data -- so shared prefixes are computed once and reused. The
     terminal context is handed to ``sink`` to produce that combination's result.
 
-    Returns ``{name_fn(choices): sink(context)}`` for every leaf.
+    Returns ``[(name_fn(choices), sink(context)), ...]`` -- one record per leaf,
+    in sweep order. A list (not a dict) so configurations that resolve to the
+    same name are all kept.
     """
     name_fn = name_fn or _default_name
     order = pipeline.order
@@ -40,7 +42,7 @@ def run(
     if missing_seed:
         raise PipelineError(f"Missing seed port(s): {sorted(missing_seed)}")
 
-    results: dict[str, Any] = {}
+    results: list[tuple[str, Any]] = []
     memo: dict[tuple, Any] = {}
     ranges = [range(len(s.variants)) for s in order]
 
@@ -59,7 +61,7 @@ def run(
                 memo[key] = out
             ctx[step.produces] = out
         choices = [(step, step.variants[combo[i]]) for i, step in enumerate(order)]
-        results[name_fn(choices)] = sink(ctx)
+        results.append((name_fn(choices), sink(ctx)))
     return results
 
 
