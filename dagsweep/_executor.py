@@ -34,6 +34,16 @@ def run(
     in sweep order. A list (not a dict) so configurations that resolve to the
     same name are all kept.
     """
+    return list(iter_run(pipeline, seed, sink, name_fn=name_fn))
+
+
+def iter_run(
+    pipeline: Pipeline,
+    seed: dict[str, Any],
+    sink: Callable[[dict[str, Any]], Any],
+    name_fn: Callable[[list[tuple[Any, Any]]], str] | None = None,
+):
+    """Yield sweep results as soon as each leaf combination is scored."""
     name_fn = name_fn or _default_name
     order = pipeline.order
     ancestors = pipeline.ancestors
@@ -42,7 +52,6 @@ def run(
     if missing_seed:
         raise PipelineError(f"Missing seed port(s): {sorted(missing_seed)}")
 
-    results: list[tuple[str, Any]] = []
     memo: dict[tuple, Any] = {}
     ranges = [range(len(s.variants)) for s in order]
 
@@ -61,8 +70,7 @@ def run(
                 memo[key] = out
             ctx[step.produces] = out
         choices = [(step, step.variants[combo[i]]) for i, step in enumerate(order)]
-        results.append((name_fn(choices), sink(ctx)))
-    return results
+        yield name_fn(choices), sink(ctx)
 
 
 def _missing_seeds(pipeline: Pipeline, seed: dict[str, Any]) -> set[str]:

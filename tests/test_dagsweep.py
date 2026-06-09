@@ -53,6 +53,15 @@ def test_values_match_bruteforce():
     assert results == expected
 
 
+def test_iter_run_yields_same_results_as_run():
+    pipe, _, _, _ = _chain()
+
+    streamed = list(pipe.iter_run(seed={"seed": "x"}, sink=lambda ctx: ctx["c"]))
+    batched = pipe.run(seed={"seed": "x"}, sink=lambda ctx: ctx["c"])
+
+    assert streamed == batched
+
+
 def test_optional_skip_uses_fallback():
     ran = {"n": 0}
 

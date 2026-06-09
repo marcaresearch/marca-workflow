@@ -105,3 +105,7 @@ class Pipeline:
     def run(self, seed, sink, name_fn=None):
         from ._executor import run as _run
         return _run(self, seed, sink, name_fn=name_fn)
+
+    def iter_run(self, seed, sink, name_fn=None):
+        from ._executor import iter_run as _iter_run
+        return _iter_run(self, seed, sink, name_fn=name_fn)
