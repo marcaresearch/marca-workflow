@@ -1,8 +1,8 @@
-"""dagsweep engine tests -- problem-agnostic, stdlib only."""
+"""marca-workflow engine tests -- problem-agnostic, stdlib only."""
 
 import pytest
 
-from dagsweep import Step, Pipeline, PipelineError
+from marca_workflow import Step, Pipeline, PipelineError
 
 
 class Counter:

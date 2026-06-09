@@ -3,9 +3,9 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "dagsweep"
+name = "marca-workflow"
 version = "0.1.1"
-description = "Declarative, prefix-reusing parameter sweeps over a step DAG."
+description = "Declarative, prefix-reusing workflow sweeps for MARCA."
 readme = "README.md"
 requires-python = ">=3.12"
 authors = [
@@ -15,10 +15,10 @@ dependencies = []
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["dagsweep*"]
+include = ["marca_workflow*"]
 
 [tool.setuptools.package-data]
-dagsweep = ["py.typed"]
+marca_workflow = ["py.typed"]
 
 [dependency-groups]
 dev = [

@@ -19,7 +19,7 @@ class Pipeline:
     by the executor to key its prefix-reuse memo).
 
     Names not produced by any step are treated as *seed* ports, supplied at
-    :func:`dagsweep.run` time.
+    :func:`marca_workflow.run` time.
     """
 
     def __init__(self, steps: Iterable[Step]):

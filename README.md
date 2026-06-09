@@ -1,11 +1,11 @@
-# dagsweep
+# marca-workflow
 
-Declarative, prefix-reusing parameter sweeps over a step DAG. Problem-agnostic:
-it knows nothing about your algorithms — only **ports** and **variants**.
+Declarative, prefix-reusing workflow sweeps for MARCA. Problem-agnostic: it
+knows nothing about your algorithms -- only **ports** and **variants**.
 
 You describe each step as a connector (named inputs/outputs, optional, with a
-list of variants to sweep). dagsweep wires the steps by port name, topologically
-orders them, and sweeps every combination — computing each **shared prefix
+list of variants to sweep). marca-workflow wires the steps by port name,
+topologically orders them, and sweeps every combination -- computing each **shared prefix
 exactly once** and reusing it for every child. The reuse is keyed on the chosen
 variant indices (a cheap token), never on a hash of the data, so large
 intermediate objects cost nothing to cache.
@@ -14,13 +14,13 @@ intermediate objects cost nothing to cache.
 
 A grid sweep `A × B × C` is a prefix tree: consecutive configurations share a
 long prefix. Hand-written nested loops capture that reuse but are rigid — a new
-step means editing the loop. dagsweep keeps the reuse but makes the structure
+step means editing the loop. marca-workflow keeps the reuse but makes the structure
 declarative: add a step by appending one `Step`.
 
 ## Example
 
 ```python
-from dagsweep import Step, Pipeline
+from marca_workflow import Step, Pipeline
 
 pipe = Pipeline([
     Step("rank",  run_rank,  consumes=("rules", "measures"),

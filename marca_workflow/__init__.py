@@ -1,4 +1,4 @@
-"""dagsweep -- declarative, prefix-reusing sweeps over a step DAG.
+"""marca-workflow -- declarative, prefix-reusing workflow sweeps for MARCA.
 
 Define steps as connectors (named inputs/outputs, optional, with a list of
 variants to sweep), wire them implicitly by port names, and let the executor
@@ -6,7 +6,7 @@ topologically order them and sweep every combination -- computing each shared
 prefix exactly once. Problem-agnostic: it knows nothing about your algorithms,
 only ports and variants.
 
-    from dagsweep import Step, Pipeline
+    from marca_workflow import Step, Pipeline
 
     pipe = Pipeline([
         Step("rank",  run_rank,  consumes=("rules", "measures"),
@@ -22,4 +22,4 @@ from ._pipeline import Pipeline, PipelineError
 from ._executor import run
 
 __all__ = ["Step", "Pipeline", "PipelineError", "run"]
-__version__ = "0.1.0"
+__version__ = "0.1.1"
