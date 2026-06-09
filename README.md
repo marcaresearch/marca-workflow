@@ -1,3 +1,5 @@
+<p align="center"><img src="header.svg" alt="MARCAworkflow"></p>
+
 # marca-workflow
 
 Declarative, prefix-reusing workflow sweeps for MARCA. Problem-agnostic: it
