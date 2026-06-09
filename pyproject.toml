@@ -13,6 +13,10 @@ authors = [
 ]
 dependencies = []
 
+[project.urls]
+Homepage = "https://github.com/marcaresearch/marca-workflow"
+Repository = "https://github.com/marcaresearch/marca-workflow"
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["marca_workflow*"]
